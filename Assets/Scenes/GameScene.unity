@@ -237,8 +237,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardArea: {fileID: 351552128}
-  rows: 5
-  columns: 6
+  rows: 4
+  columns: 4
   spacing: 10
   cardPrefab: {fileID: 5054811478909608131, guid: 7ecead933cd50f045b5b55856f2c68f3, type: 3}
   cardFrontSprites:

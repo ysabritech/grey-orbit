@@ -53,6 +53,25 @@ public class Card : MonoBehaviour
     //CARDS MATCHED!!
     public void LockAsMatched()
     {
+        //Stop any interaction with the buttons
         GetComponent<Button>().interactable = false;
+
+        //Fade functionality when cards are matched and locked
+        Color c1 = frontImage.color;
+        Color c2 = backImage.color;
+
+        c1.a = 0.5f;
+        c2.a = 0.5f;
+
+        frontImage.color = c1;
+        backImage.color = c2;
+
     }
 }
+
+
+
+/*now it all works well YAYYYY
+Include a scoring mechanism.
+I need a scoring system please I will have a scoring for the number of matches and number of turns
+Now the turns are taken for the pairs*/
