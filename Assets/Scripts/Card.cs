@@ -90,10 +90,3 @@ public class Card : MonoBehaviour
     }
 
 }
-
-
-
-/*now it all works well YAYYYY
-Include a scoring mechanism.
-I need a scoring system please I will have a scoring for the number of matches and number of turns
-Now the turns are taken for the pairs*/
