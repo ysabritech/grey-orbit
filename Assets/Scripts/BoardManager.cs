@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,11 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private float spacing = 10f;                           //spaces between the cards
     [SerializeField] private GameObject cardPrefab;                         //button prefab created
     [SerializeField] private List<Sprite> cardFrontSprites;                 //assign a list for all images included in the game
+    [SerializeField] private TMP_Text matchesText;                              //Assign the text for matches
+    [SerializeField] private TMP_Text turnsText;                                //Assign the text for turns
+
+    private int matches = 0;                                                //initialize matches numbr
+    private int turns = 0;                                                  //initialize turns numbr
 
     private List<int> cardPairIds = new List<int>();                        //create a new card pair list
     private List<Card> allCards = new List<Card>();
@@ -32,7 +38,17 @@ public class BoardManager : MonoBehaviour
         SpawnCards(); //Changes dynamically based on number of rows and columns
 
         StartCoroutine(InitialReveal());//Reveal all cards for 3 seconds
+
+        UpdateScoreUI();//start the score UI
     }
+
+
+    private void UpdateScoreUI()
+    {
+        matchesText.text = "Matches: " + matches.ToString();
+        turnsText.text = "Turns: " + turns.ToString();
+    }
+
 
     void AdjustCellSize()
     {
@@ -102,6 +118,8 @@ public class BoardManager : MonoBehaviour
 
         //SECOND CARD
         isCheckingMatch = true;
+        turns++;                 //count this turn in pairs that was flipped
+        UpdateScoreUI();
         StartCoroutine(CheckMatch(card));
 
     }
@@ -116,6 +134,9 @@ public class BoardManager : MonoBehaviour
         {
             firstRevealedCard.LockAsMatched();
             secondCard.LockAsMatched();
+
+            matches++;          //increase matches only when it happens
+            UpdateScoreUI();
         }
         else // MISMATCH :( meaning flip back
         {

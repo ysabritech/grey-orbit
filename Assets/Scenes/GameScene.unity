@@ -392,6 +392,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e298bc8abc2c8dc4eb9384376bb64a38, type: 3}
   - {fileID: 21300000, guid: 727e8fe9f37cb8549916c66f44d3b928, type: 3}
   - {fileID: 21300000, guid: d70c602ae70845447a609af56fa650f8, type: 3}
+  matchesText: {fileID: 341267782}
+  turnsText: {fileID: 2146976938}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
