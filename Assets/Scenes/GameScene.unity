@@ -237,10 +237,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardArea: {fileID: 351552128}
-  rows: 3
-  columns: 3
+  rows: 5
+  columns: 6
   spacing: 10
   cardPrefab: {fileID: 5054811478909608131, guid: 7ecead933cd50f045b5b55856f2c68f3, type: 3}
+  cardFrontSprites:
+  - {fileID: 21300000, guid: 56643e76bbf7c1b40bcf34d0301ca926, type: 3}
+  - {fileID: 21300000, guid: 08e84686f2416a446b857ac96bdc1c61, type: 3}
+  - {fileID: 21300000, guid: b37029d7533a6eb4ab9bfe4201b0272f, type: 3}
+  - {fileID: 21300000, guid: d199618b0b802814b91b931b51581761, type: 3}
+  - {fileID: 21300000, guid: 1f5ded5e4981b3241b2930bda8d52a38, type: 3}
+  - {fileID: 21300000, guid: 4cd7a79e29c202348be24720834f3a56, type: 3}
+  - {fileID: 21300000, guid: ae2c482bee8497c43b1eb972ff01c7c6, type: 3}
+  - {fileID: 21300000, guid: 54684c24e5e945046967eff4e35cf726, type: 3}
+  - {fileID: 21300000, guid: f2c6f28d0ab5b0e49ac4f0e0414d1a27, type: 3}
+  - {fileID: 21300000, guid: 43b5f28ecf89f074b9a1b3b36d1511e5, type: 3}
+  - {fileID: 21300000, guid: edc4da1dc8ce321408aa1db4b678fb30, type: 3}
+  - {fileID: 21300000, guid: 268125a1c9e00a248b2756a9f4aa85d3, type: 3}
+  - {fileID: 21300000, guid: e298bc8abc2c8dc4eb9384376bb64a38, type: 3}
+  - {fileID: 21300000, guid: 727e8fe9f37cb8549916c66f44d3b928, type: 3}
+  - {fileID: 21300000, guid: 27f0bb8cd1974bd4b8712be0df8b70f4, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
