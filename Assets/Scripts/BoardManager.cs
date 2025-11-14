@@ -13,6 +13,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private List<Sprite> cardFrontSprites;                 //assign a list for all images included in the game
 
     private List<int> cardPairIds = new List<int>();                        //create a new card pair list
+    private List<Card> allCards = new List<Card>();
 
     private GridLayoutGroup grid;
 
@@ -29,6 +30,8 @@ public class BoardManager : MonoBehaviour
 
         AdjustCellSize(); //adjust the cells size at the start of the game
         SpawnCards(); //Changes dynamically based on number of rows and columns
+
+        StartCoroutine(InitialReveal());//Reveal all cards for 3 seconds
     }
 
     void AdjustCellSize()
@@ -79,7 +82,9 @@ public class BoardManager : MonoBehaviour
             Sprite frontSprite = cardFrontSprites[id];//pick the fron sprite from the list
 
             card.Init(id, frontSprite, this);//give back all components to the card
+            allCards.Add(card); //Track all cards
         }
+
     }
 
     public void OnCardRevealed(Card card)
@@ -114,6 +119,25 @@ public class BoardManager : MonoBehaviour
         // Reset
         firstRevealedCard = null;
         isCheckingMatch = false;
+    }
+
+
+    private IEnumerator InitialReveal()
+    {
+        //Show all fronts of the cards
+        foreach (var card in allCards)
+        {
+            card.ShowFront();
+        }
+
+        //Wait 3 seconds
+        yield return new WaitForSeconds(3f);
+
+        //Flip to back
+        foreach (var card in allCards)
+        {
+            card.ShowBack();
+        }
     }
 
 }
