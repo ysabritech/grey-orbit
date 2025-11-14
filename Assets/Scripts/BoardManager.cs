@@ -1,0 +1,119 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class BoardManager : MonoBehaviour
+{
+    [SerializeField] private RectTransform cardArea;                        //Card area panel
+    [SerializeField] private int rows = 4;                                  //grid size (will change dynamically)
+    [SerializeField] private int columns = 4;
+    [SerializeField] private float spacing = 10f;                           //spaces between the cards
+    [SerializeField] private GameObject cardPrefab;                         //button prefab created
+    [SerializeField] private List<Sprite> cardFrontSprites;                 //assign a list for all images included in the game
+
+    private List<int> cardPairIds = new List<int>();                        //create a new card pair list
+
+    private GridLayoutGroup grid;
+
+    private Card firstRevealedCard = null;
+    private bool isCheckingMatch = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        grid = cardArea.GetComponent<GridLayoutGroup>(); //set the grid area
+
+        //change the constraint count for a cleaner look based on column count 
+        grid.constraintCount = columns;
+
+        AdjustCellSize(); //adjust the cells size at the start of the game
+        SpawnCards(); //Changes dynamically based on number of rows and columns
+    }
+
+    void AdjustCellSize()
+    {
+        var grid = cardArea.GetComponent<GridLayoutGroup>(); //save the card area into variable grid
+        Vector2 area = cardArea.rect.size; //save card area value into a vector2d
+
+        float cellWidth = (area.x - (spacing * (columns - 1))) / columns; //calculate max width by subtracting the x value from the gaps taken
+        float cellHeight = (area.y - (spacing * (rows - 1))) / rows; //calculate max height by subtracting the y value from the gaps taken
+
+        float size = Mathf.Min(cellWidth, cellHeight); //calculate the largest size possible to fit
+
+        grid.cellSize = new Vector2(size, size); //control how big each grid cell
+    }
+
+    private void SpawnCards()
+    {
+        int totalCards = rows * columns; //calculate total cards, example: 2x2 = 4
+        cardPairIds.Clear();//Clear all IDs
+
+        int pairCount = totalCards / 2;  //Since we have them in pairs
+
+        //1. Create the pair IDs
+        for (int i = 0; i < pairCount; i++)
+        {
+            cardPairIds.Add(i);
+            cardPairIds.Add(i);
+        }
+
+        //2. Shuffle cards
+        for (int i = 0; i < cardPairIds.Count; i++)
+        {
+            int randomIndex = Random.Range(i, cardPairIds.Count);//get random index to assign
+            int temp = cardPairIds[i];//make a temporary holder for storing current value
+            cardPairIds[i] = cardPairIds[randomIndex];//replace the value at i with a random index
+            cardPairIds[randomIndex] = temp;//store the random index with the current value
+        }
+
+        //3. connect each card with its components and instatiate them
+        for (int i = 0; i < totalCards; i++)
+        {
+            GameObject newCard = Instantiate(cardPrefab, cardArea); //instantiate the card prefab
+            newCard.transform.localScale = Vector3.one; //locally scale it not based on parent or other variables
+
+            //Connect card with its components
+            Card card = newCard.GetComponent<Card>();
+            int id = cardPairIds[i];//connect the card index with its id
+            Sprite frontSprite = cardFrontSprites[id];//pick the fron sprite from the list
+
+            card.Init(id, frontSprite, this);//give back all components to the card
+        }
+    }
+
+    public void OnCardRevealed(Card card)
+    {
+        //in case two reveals happen in the same frame to avoid any errors with no timer
+        if (isCheckingMatch)
+            return;
+
+        //FIRST CARD
+        if (firstRevealedCard == null)
+        {
+            firstRevealedCard = card;
+            return;
+        }
+
+        //SECOND CARD
+        isCheckingMatch = true;
+
+        //MATCH :)
+        if (firstRevealedCard.PairId == card.PairId)
+        {
+            firstRevealedCard.LockAsMatched();
+            card.LockAsMatched();
+        }
+        else
+        {
+            // MISMATCH :( meaning flip both back immediately
+            firstRevealedCard.ShowBack();
+            card.ShowBack();
+        }
+
+        // Reset
+        firstRevealedCard = null;
+        isCheckingMatch = false;
+    }
+
+}
