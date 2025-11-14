@@ -102,25 +102,31 @@ public class BoardManager : MonoBehaviour
 
         //SECOND CARD
         isCheckingMatch = true;
+        StartCoroutine(CheckMatch(card));
+
+    }
+
+    private IEnumerator CheckMatch(Card secondCard)
+    {
+        // small delay so the player sees the second card
+        yield return new WaitForSeconds(0.5f);
 
         //MATCH :)
-        if (firstRevealedCard.PairId == card.PairId)
+        if (firstRevealedCard.PairId == secondCard.PairId)//do they have the same ID?
         {
             firstRevealedCard.LockAsMatched();
-            card.LockAsMatched();
+            secondCard.LockAsMatched();
         }
-        else
+        else // MISMATCH :( meaning flip back
         {
-            // MISMATCH :( meaning flip both back immediately
             firstRevealedCard.ShowBack();
-            card.ShowBack();
+            secondCard.ShowBack();
         }
 
-        // Reset
+        //Reset
         firstRevealedCard = null;
         isCheckingMatch = false;
     }
-
 
     private IEnumerator InitialReveal()
     {
