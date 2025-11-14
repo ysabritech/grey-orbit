@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Card : MonoBehaviour
 {
     [SerializeField] private Image backImage;
     [SerializeField] private Image frontImage;
+    [SerializeField] private Image cardImage;
 
     private int pairId;                //which pair this card belongs to
     private bool isRevealed = false;   //check if our card is revealed
@@ -56,17 +58,37 @@ public class Card : MonoBehaviour
         //Stop any interaction with the buttons
         GetComponent<Button>().interactable = false;
 
-        //Fade functionality when cards are matched and locked
-        Color c1 = frontImage.color;
-        Color c2 = backImage.color;
-
-        c1.a = 0.5f;
-        c2.a = 0.5f;
-
-        frontImage.color = c1;
-        backImage.color = c2;
+        StartCoroutine(FadeImage(frontImage, 0.5f, 0.4f));
+        Color c2 = cardImage.color;
+        c2.a = 0.0f;
+        cardImage.color = c2;
 
     }
+
+    //A fade functionality
+    private IEnumerator FadeImage(Image img, float targetAlpha, float duration)
+    {
+        float startAlpha = img.color.a;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            Color c = img.color;
+            c.a = Mathf.Lerp(startAlpha, targetAlpha, t);
+            img.color = c;
+
+            yield return null;
+        }
+
+        // ensure exact final alpha
+        Color finalColor = img.color;
+        finalColor.a = targetAlpha;
+        img.color = finalColor;
+    }
+
 }
 
 

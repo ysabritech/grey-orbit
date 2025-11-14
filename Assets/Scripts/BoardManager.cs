@@ -109,7 +109,7 @@ public class BoardManager : MonoBehaviour
     private IEnumerator CheckMatch(Card secondCard)
     {
         // small delay so the player sees the second card
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
 
         //MATCH :)
         if (firstRevealedCard.PairId == secondCard.PairId)//do they have the same ID?
