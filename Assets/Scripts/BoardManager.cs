@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class BoardManager : MonoBehaviour
 {
+    private int rows = DifficultySettings.rows;            //grid size (will change dynamically)
+    private int columns = DifficultySettings.columns;
+
     [SerializeField] private RectTransform cardArea;                        //Card area panel
-    [SerializeField] private int rows = 4;                                  //grid size (will change dynamically)
-    [SerializeField] private int columns = 4;
     [SerializeField] private float spacing = 10f;                           //spaces between the cards
     [SerializeField] private GameObject cardPrefab;                         //button prefab created
     [SerializeField] private List<Sprite> cardFrontSprites;                 //assign a list for all images included in the game
