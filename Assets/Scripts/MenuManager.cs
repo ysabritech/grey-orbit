@@ -53,4 +53,9 @@ public class MenuManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }
 
+    public void Back()
+    {
+        difficultyButtons.SetActive(false);//unhide levels buttons
+        menuButtons.SetActive(true);//hide menu buttons
+    }
 }

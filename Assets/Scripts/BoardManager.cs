@@ -168,4 +168,8 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    public void Back()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
 }
