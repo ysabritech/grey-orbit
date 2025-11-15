@@ -7,6 +7,8 @@ public class Card : MonoBehaviour
     [SerializeField] private Image backImage;
     [SerializeField] private Image frontImage;
     [SerializeField] private Image cardImage;
+    [SerializeField] private AudioClip cardClicked;
+    [SerializeField] private AudioSource audioSource;
 
     private int pairId;                //which pair this card belongs to
     private bool isRevealed = false;   //check if our card is revealed
@@ -28,6 +30,8 @@ public class Card : MonoBehaviour
     {
         //ignore if card is revealed
         if (isRevealed) return;
+
+        audioSource.PlayOneShot(cardClicked);
 
         ShowFront();
 

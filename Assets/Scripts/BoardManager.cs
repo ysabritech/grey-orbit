@@ -46,6 +46,12 @@ public class BoardManager : MonoBehaviour
 
     public LevelManager levelManager;
 
+
+    [SerializeField] private AudioClip matched;
+    [SerializeField] private AudioClip mismatched;
+    [SerializeField] private AudioClip won;
+    [SerializeField] private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -162,6 +168,7 @@ public class BoardManager : MonoBehaviour
         //MATCH :)
         if (firstRevealedCard.PairId == secondCard.PairId)//do they have the same ID?
         {
+            audioSource.PlayOneShot(matched);
             firstRevealedCard.LockAsMatched();
             secondCard.LockAsMatched();
 
@@ -172,6 +179,7 @@ public class BoardManager : MonoBehaviour
         }
         else // MISMATCH :( meaning flip back
         {
+            audioSource.PlayOneShot(mismatched);
             firstRevealedCard.ShowBack();
             secondCard.ShowBack();
         }
@@ -280,10 +288,21 @@ public class BoardManager : MonoBehaviour
     {
         SaveGame();
     }
+    public void ReloadAfterDelay()
+    {
+        Invoke("LoadSceneNow", 0.5f);
+    }
 
-    public void ReloadGame()
+    void LoadSceneNow()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+    }
+
+    void ShowWin()
+    {
+        winPanel.SetActive(true);
+        audioSource.PlayOneShot(won);
+        GameComponents.SetActive(false);
     }
 
     private void CheckWin()
@@ -292,9 +311,8 @@ public class BoardManager : MonoBehaviour
 
         if (matches >= totalPairs)
         {
-            winPanel.SetActive(true);
-            GameComponents.SetActive(false);
-
+            Invoke("ShowWin", 1.0f);
+            
             PlayerPrefs.DeleteKey(SaveKey);//CLear save key
 
             if(DifficultySettings.rows == 5 && DifficultySettings.columns == 6)
