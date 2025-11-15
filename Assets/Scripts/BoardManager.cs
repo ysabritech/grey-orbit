@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class SaveData//Data to be saved when reload
@@ -16,15 +17,17 @@ public class SaveData//Data to be saved when reload
 }
 public class BoardManager : MonoBehaviour
 {
-    private int rows = DifficultySettings.rows;            //grid size (will change dynamically)
+    private int rows = DifficultySettings.rows;                             //grid size (will change dynamically)
     private int columns = DifficultySettings.columns;
 
     [SerializeField] private RectTransform cardArea;                        //Card area panel
     [SerializeField] private float spacing = 10f;                           //spaces between the cards
     [SerializeField] private GameObject cardPrefab;                         //button prefab created
     [SerializeField] private List<Sprite> cardFrontSprites;                 //assign a list for all images included in the game
-    [SerializeField] private TMP_Text matchesText;                              //Assign the text for matches
-    [SerializeField] private TMP_Text turnsText;                                //Assign the text for turns
+    [SerializeField] private TMP_Text matchesText;                          //Assign the text for matches
+    [SerializeField] private TMP_Text turnsText;                            //Assign the text for turns
+    [SerializeField] private GameObject winPanel;     
+    [SerializeField] private UnityEngine.UI.Button nextLevelButton;                        //button to go to the next level
 
     private int matches = 0;                                                //initialize matches numbr
     private int turns = 0;                                                  //initialize turns numbr
@@ -162,6 +165,8 @@ public class BoardManager : MonoBehaviour
 
             matches++;          //increase matches only when it happens
             UpdateScoreUI();
+
+            CheckWin();
         }
         else // MISMATCH :( meaning flip back
         {
@@ -210,7 +215,7 @@ public class BoardManager : MonoBehaviour
 
         foreach (var card in allCards)
         {
-            bool isMatched = !card.GetComponent<Button>().interactable;
+            bool isMatched = !card.GetComponent<UnityEngine.UI.Button>().interactable;
             data.matchedCards.Add(isMatched);
         }
 
@@ -279,4 +284,15 @@ public class BoardManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
     }
 
+    private void CheckWin()
+    {
+        int totalPairs = (rows * columns) / 2;//Save total pairs
+
+        if (matches >= totalPairs)
+        {
+            winPanel.SetActive(true);
+
+            PlayerPrefs.DeleteKey(SaveKey);//CLear save key
+        }
+    }
 }
