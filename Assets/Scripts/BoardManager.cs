@@ -71,7 +71,6 @@ public class BoardManager : MonoBehaviour
         
     }
 
-
     private void UpdateScoreUI()
     {
         matchesText.text = "Matches: " + matches.ToString();
