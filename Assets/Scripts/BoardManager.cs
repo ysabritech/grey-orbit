@@ -4,6 +4,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class SaveData//Data to be saved when reload
+{
+    public int rows;
+    public int columns;
+    public int matches;
+    public int turns;
+    public List<int> pairIds;
+    public List<bool> matchedCards;
+}
 public class BoardManager : MonoBehaviour
 {
     private int rows = DifficultySettings.rows;            //grid size (will change dynamically)
@@ -21,6 +31,8 @@ public class BoardManager : MonoBehaviour
 
     private List<int> cardPairIds = new List<int>();                        //create a new card pair list
     private List<Card> allCards = new List<Card>();
+    
+    private const string SaveKey = "MatchSaved";
 
     private GridLayoutGroup grid;
 
@@ -32,6 +44,16 @@ public class BoardManager : MonoBehaviour
     {
         grid = cardArea.GetComponent<GridLayoutGroup>(); //set the grid area
 
+        //Stop the rest of the start if the previous game was saved and loaded
+        if (DifficultySettings.loadPrevious && TryLoadGame())
+        {
+            return;
+        }
+
+        //Use default settings if no game was saved
+        rows = DifficultySettings.rows;
+        columns = DifficultySettings.columns;
+
         //change the constraint count for a cleaner look based on column count 
         grid.constraintCount = columns;
 
@@ -41,6 +63,8 @@ public class BoardManager : MonoBehaviour
         StartCoroutine(InitialReveal());//Reveal all cards for 3 seconds
 
         UpdateScoreUI();//start the score UI
+
+        
     }
 
 
@@ -172,4 +196,87 @@ public class BoardManager : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
+
+    //Chose the data to save and save it in the key
+    private void SaveGame()
+    {
+        SaveData data = new SaveData();
+        data.rows = rows;
+        data.columns = columns;
+        data.matches = matches;
+        data.turns = turns;
+        data.pairIds = new List<int>(cardPairIds);
+        data.matchedCards = new List<bool>();
+
+        foreach (var card in allCards)
+        {
+            bool isMatched = !card.GetComponent<Button>().interactable;
+            data.matchedCards.Add(isMatched);
+        }
+
+        string json = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(SaveKey, json);
+        PlayerPrefs.Save();
+    }
+
+    //Load the game from the saved data if it exists
+    private bool TryLoadGame()
+    {
+        string json = PlayerPrefs.GetString(SaveKey);
+        SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+        rows = data.rows;
+        columns = data.columns;
+        matches = data.matches;
+        turns = data.turns;
+
+        grid.constraintCount = columns;
+        AdjustCellSize();
+
+        allCards.Clear();
+        cardPairIds.Clear();
+        cardPairIds.AddRange(data.pairIds);
+
+        int totalCards = rows * columns;
+
+        //Recreate board using Ids saved
+        for (int i = 0; i < totalCards; i++)
+        {
+            GameObject newCard = Instantiate(cardPrefab, cardArea);
+            newCard.transform.localScale = Vector3.one;
+
+            Card card = newCard.GetComponent<Card>();
+            int id = cardPairIds[i];
+            Sprite frontSprite = cardFrontSprites[id];
+
+            card.Init(id, frontSprite, this);
+            allCards.Add(card);
+
+            // Restore matched state
+            if (i < data.matchedCards.Count && data.matchedCards[i])
+            {
+                card.ShowFront();
+                card.LockAsMatched();
+            }
+            else
+            {
+                card.ShowBack();
+            }
+        }
+
+        UpdateScoreUI();
+
+        return true;
+    }
+
+    public void SaveButton()
+    {
+        SaveGame();
+    }
+
+    public void ReloadGame()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+    }
+
 }

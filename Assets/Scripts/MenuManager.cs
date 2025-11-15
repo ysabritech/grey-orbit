@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
@@ -24,38 +25,52 @@ public class MenuManager : MonoBehaviour
     {
         DifficultySettings.rows = 2;
         DifficultySettings.columns = 3;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        DifficultySettings.loadPrevious = false;
+        SceneManager.LoadScene("GameScene");
     }
 
     public void Easy()
     {
         DifficultySettings.rows = 2;
         DifficultySettings.columns = 4;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        DifficultySettings.loadPrevious = false;
+        SceneManager.LoadScene("GameScene");
     }
     public void Medium()
     {
         DifficultySettings.rows = 3;
         DifficultySettings.columns = 4;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        DifficultySettings.loadPrevious = false;
+        SceneManager.LoadScene("GameScene");
     }
     public void Hard()
     {
         DifficultySettings.rows = 4;
         DifficultySettings.columns = 5;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        DifficultySettings.loadPrevious = false;
+        SceneManager.LoadScene("GameScene");
     }
 
     public void VeryHard()
     {
         DifficultySettings.rows = 5;
         DifficultySettings.columns = 6;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        DifficultySettings.loadPrevious = false;
+        SceneManager.LoadScene("GameScene");
     }
 
     public void Back()
     {
         difficultyButtons.SetActive(false);//unhide levels buttons
         menuButtons.SetActive(true);//hide menu buttons
+    }
+
+    public void LoadGame()
+    {
+        if(PlayerPrefs.HasKey("MatchSaved"))
+        {
+            DifficultySettings.loadPrevious = true;
+            SceneManager.LoadScene("GameScene");
+        }
     }
 }
