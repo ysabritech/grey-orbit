@@ -43,10 +43,13 @@ public class BoardManager : MonoBehaviour
     private Card firstRevealedCard = null;
     private bool isCheckingMatch = false;
 
+    public LevelManager levelManager;
+
     // Start is called before the first frame update
     void Start()
     {
         grid = cardArea.GetComponent<GridLayoutGroup>(); //set the grid area
+        levelManager = FindAnyObjectByType<LevelManager>();
 
         //Stop the rest of the start if the previous game was saved and loaded
         if (DifficultySettings.loadPrevious && TryLoadGame())
@@ -67,8 +70,6 @@ public class BoardManager : MonoBehaviour
         StartCoroutine(InitialReveal());//Reveal all cards for 3 seconds
 
         UpdateScoreUI();//start the score UI
-
-        
     }
 
     private void UpdateScoreUI()
@@ -296,4 +297,9 @@ public class BoardManager : MonoBehaviour
             PlayerPrefs.DeleteKey(SaveKey);//CLear save key
         }
     }
+    public void OnNextLevelButton()
+    {
+        levelManager.NextLevel(rows, columns);
+    }
+
 }

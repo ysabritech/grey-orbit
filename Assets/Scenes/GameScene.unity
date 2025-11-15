@@ -557,6 +557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 575578892}
   - component: {fileID: 575578891}
+  - component: {fileID: 575578893}
   m_Layer: 0
   m_Name: GameLogic
   m_TagString: Untagged
@@ -600,6 +601,7 @@ MonoBehaviour:
   winPanel: {fileID: 823758499}
   GameComponents: {fileID: 1703308267}
   nextLevelButton: {fileID: 1270232420}
+  levelManager: {fileID: 0}
 --- !u!4 &575578892
 Transform:
   m_ObjectHideFlags: 0
@@ -615,6 +617,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &575578893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575578890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be873da8dcd85ba4d9901949fedee32f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &582855734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,9 +1382,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 575578891}
         m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
-        m_MethodName: ReloadGame
+        m_MethodName: OnNextLevelButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
