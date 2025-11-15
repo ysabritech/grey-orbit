@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private Text buttonText;
     public void NextLevel(int currentRows, int currentColumns)
     {
         if (currentRows == 2 && currentColumns == 3)            //Move from Very Easy -> Easy
@@ -33,7 +32,6 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            buttonText.text = "Main Menu";
             SceneManager.LoadScene("MainMenu");
             return;
         }

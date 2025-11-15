@@ -601,6 +601,7 @@ MonoBehaviour:
   winPanel: {fileID: 823758499}
   GameComponents: {fileID: 1703308267}
   nextLevelButton: {fileID: 1270232420}
+  buttonText: {fileID: 870832601}
   levelManager: {fileID: 0}
 --- !u!4 &575578892
 Transform:
@@ -713,7 +714,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 575578891}
         m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
         m_MethodName: Back
         m_Mode: 1
@@ -1180,7 +1181,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 575578891}
         m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
         m_MethodName: ReloadGame
         m_Mode: 1
@@ -1516,7 +1517,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 575578891}
         m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
         m_MethodName: SaveButton
         m_Mode: 1

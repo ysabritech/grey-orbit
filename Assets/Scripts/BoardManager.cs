@@ -29,6 +29,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject winPanel;     
     [SerializeField] private GameObject GameComponents;     
     [SerializeField] private UnityEngine.UI.Button nextLevelButton;                        //button to go to the next level
+    [SerializeField] private Text buttonText;
 
     private int matches = 0;                                                //initialize matches numbr
     private int turns = 0;                                                  //initialize turns numbr
@@ -295,6 +296,11 @@ public class BoardManager : MonoBehaviour
             GameComponents.SetActive(false);
 
             PlayerPrefs.DeleteKey(SaveKey);//CLear save key
+
+            if(DifficultySettings.rows == 5 && DifficultySettings.columns == 6)
+            {
+                buttonText.text = "Main Menu";
+            }
         }
     }
     public void OnNextLevelButton()
