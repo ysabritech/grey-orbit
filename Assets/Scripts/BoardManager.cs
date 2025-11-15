@@ -27,6 +27,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private TMP_Text matchesText;                          //Assign the text for matches
     [SerializeField] private TMP_Text turnsText;                            //Assign the text for turns
     [SerializeField] private GameObject winPanel;     
+    [SerializeField] private GameObject GameComponents;     
     [SerializeField] private UnityEngine.UI.Button nextLevelButton;                        //button to go to the next level
 
     private int matches = 0;                                                //initialize matches numbr
@@ -291,6 +292,7 @@ public class BoardManager : MonoBehaviour
         if (matches >= totalPairs)
         {
             winPanel.SetActive(true);
+            GameComponents.SetActive(false);
 
             PlayerPrefs.DeleteKey(SaveKey);//CLear save key
         }
